@@ -9,4 +9,10 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('/hello')
+  getMyName():String {
+    return this.appService.getMyName();
+  }
+  
 }
