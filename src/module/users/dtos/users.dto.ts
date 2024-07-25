@@ -16,4 +16,7 @@ export class UserDto{
     @MinLength(8)
     @IsNotEmpty({message:"The ConfirmPassword is required"})
     confirmPassword: string;
+
+    @IsNotEmpty()
+    departmentId:string;
 }

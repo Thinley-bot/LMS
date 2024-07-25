@@ -8,7 +8,13 @@ import { AppService } from './app.service';
 import { typeOrmConfig } from './config/typeorm.config';
 import { AuthModule } from './module/auth/auth.module';
 import { UsersModule } from './module/users/users.module';
-import { ProfileModule } from './module/profile/profile.module';
+import { DepartmentController } from './module/department/department.controller';
+import { DepartmentModule } from './module/department/department.module';
+import { RoleModule } from './module/role/role.module';
+import { GradeModule } from './module/grade/grade.module';
+import { LeaveModule } from './module/leave/leave.module';
+import { LeavetypeService } from './module/leavetype/leavetype.service';
+import { LeavetypeModule } from './module/leavetype/leavetype.module';
 
 @Module({
   imports: [
@@ -26,9 +32,13 @@ import { ProfileModule } from './module/profile/profile.module';
     }),
     AuthModule,
     UsersModule,
-    ProfileModule,
+    DepartmentModule,
+    RoleModule,
+    GradeModule,
+    LeaveModule,
+    LeavetypeModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, DepartmentController],
+  providers: [AppService, LeavetypeService],
 })
 export class AppModule {}

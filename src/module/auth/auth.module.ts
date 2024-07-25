@@ -9,10 +9,11 @@ import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { config } from 'dotenv';
+import { DepartmentModule } from '../department/department.module';
 
 @Module({
 imports: [TypeOrmModule.forFeature([Users]),UsersModule,
-PassportModule],
+PassportModule,DepartmentModule],
 controllers: [AuthController],
 providers: [AuthService,LocalStrategy,JwtStrategy ],
 })
