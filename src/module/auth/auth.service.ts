@@ -2,7 +2,6 @@ import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/co
 import * as bcrypt from 'bcrypt';
 import { CheckMatching } from 'src/utility/PasswordMatching.util';
 import { UsersService } from '../users/users.service'; 
-import { UserCredentialsDto } from './dtos/credentials.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from '../users/users.entity';
 import { Repository } from 'typeorm';
@@ -38,7 +37,7 @@ export class AuthService {
           return 'The password and password confirmation should match.';
         } else {
           const department = await this.departmentService.findById(departmentId);
-          console.log('Found department:', department); // Log the found department
+          console.log('Found department:', department);
           if (!department) {
             throw new NotFoundException('Department not found');
           } else {

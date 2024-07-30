@@ -34,4 +34,14 @@ export class UsersService {
     async findAll():Promise<Users[] | null>{
         return this.userRepository.find({relations:['department']})
     }
+
+    async updateUser(employee_Id:employee_Id){
+        let user=this.findUserById(employee_Id);
+        if(!user){
+            return new  NotFoundException("User Not Found!")
+        }
+        else{
+            
+        }
+    }
 }

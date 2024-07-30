@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn,Column, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn,Column, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { Users } from "../users/users.entity";
 
 @Entity()
@@ -9,6 +9,12 @@ export class Role{
     @Column()
     role:string;
 
-    @OneToMany(()=>Users,(user)=>user.id)
+    @CreateDateColumn()
+    createdAt: Date;
+  
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    @OneToMany(()=>Users,(user)=>user.role)
     user:Users[];
 }

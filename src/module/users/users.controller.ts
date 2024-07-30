@@ -15,5 +15,9 @@ export class UsersController {
     getUser(employeeId:string){
         return this.usersService.findaUserByEmpId(employeeId);
     }
+
+    updateUser(employeeId:string){
+        return this.usersService.updateUser(employeeId);
+    }
     
 }

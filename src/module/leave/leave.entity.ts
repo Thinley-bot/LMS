@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, PrimaryGeneratedColumn,ManyToOne } from "typeorm";
+import { Column, Entity, JoinColumn, PrimaryGeneratedColumn,ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { Users } from "../users/users.entity";
 import { LeaveType } from "../leavetype/leavetype.entity";
 
@@ -27,6 +27,12 @@ export class Leave{
 
     @Column()
     leave_type_id:string;
+
+    @CreateDateColumn()
+    createdAt: Date;
+  
+    @UpdateDateColumn()
+    updatedAt: Date;
 
     @ManyToOne(()=>Users,(user)=>user.leave)
     @JoinColumn({

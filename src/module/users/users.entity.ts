@@ -1,4 +1,4 @@
-import { Column, Entity,JoinColumn,ManyToOne,OneToMany,OneToOne,PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity,JoinColumn,ManyToOne,OneToMany,OneToOne,PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Department } from "../department/department.entity";
 import { Grade } from "../grade/grade.entity";
 import { Role } from "../role/role.entity";
@@ -32,19 +32,25 @@ export class Users{
     @Column()
     department_id:string
 
-    @ManyToOne(() => Department, (department) => department.id)
+    @CreateDateColumn()
+    createdAt: Date;
+  
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    @ManyToOne(() => Department, (department) => department.users)
     @JoinColumn({
         name:"department_id"
     })
     department: Department;
 
-    @ManyToOne(()=>Grade,(grade)=>grade.id)
+    @ManyToOne(()=>Grade,(grade)=>grade.user)
     @JoinColumn({
         name:"grade_id"
     })
     grade:Grade;
 
-    @ManyToOne(()=>Role,(role)=>role.role_id)
+    @ManyToOne(()=>Role,(role)=>role.user)
     @JoinColumn({
         name:"role_id"
     })
