@@ -1,6 +1,8 @@
 import { Column, Entity, JoinColumn, PrimaryGeneratedColumn,ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { Users } from "../users/users.entity";
 import { LeaveType } from "../leavetype/leavetype.entity";
+import { type } from "os";
+import { LEAVE_STATUS } from "src/enum/leavestatus.enum";
 
 @Entity()
 export class Leave{
@@ -8,10 +10,10 @@ export class Leave{
     id:string;
 
     @Column()
-    start_date:string;
+    start_date:Date;
 
     @Column()
-    end_date:string;
+    end_date:Date;
 
     @Column()
     total_days:number;
@@ -19,7 +21,14 @@ export class Leave{
     @Column()
     purpose:string;
 
-    @Column()
+    @Column(
+        {
+            type:"enum",
+            enum:LEAVE_STATUS,
+            default:LEAVE_STATUS.draft
+        }
+
+    )
     status:string;
 
     @Column()

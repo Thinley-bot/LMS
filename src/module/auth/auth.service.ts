@@ -36,7 +36,7 @@ export class AuthService {
         if (!CheckMatching(password, confirmPassword)) {
           return 'The password and password confirmation should match.';
         } else {
-          const department = await this.departmentService.findById(departmentId);
+          const department = await this.departmentService.findOne(departmentId);
           console.log('Found department:', department);
           if (!department) {
             throw new NotFoundException('Department not found');

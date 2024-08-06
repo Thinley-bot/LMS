@@ -2,13 +2,13 @@ import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/co
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './users.entity';
 import { Repository } from 'typeorm';
-import {employee_Id, user_id} from "../../types/employee.type"
+import {EmployeeId,UserId} from "../../types/employee.type"
 
 @Injectable()
 export class UsersService {
     constructor(@InjectRepository(Users) private userRepository:Repository<Users>) {}
 
-    async findaUserByEmpId(employeeId:employee_Id): Promise<Users | null> {
+    async findaUserByEmpId(employeeId:EmployeeId): Promise<Users | null> {
         try {
             const user = await this.userRepository.findOne({ where: { employeeId } });
             return user || null;
@@ -17,7 +17,7 @@ export class UsersService {
         }
     }
 
-    async findUserById(userId:user_id):Promise<Users | null>{
+    async findUserById(userId:UserId):Promise<Users | null>{
         try{
             const user=await this.userRepository.findOne({
                 where:{
@@ -35,7 +35,7 @@ export class UsersService {
         return this.userRepository.find({relations:['department']})
     }
 
-    async updateUser(employee_Id:employee_Id){
+    async updateUser(employee_Id:EmployeeId){
         let user=this.findUserById(employee_Id);
         if(!user){
             return new  NotFoundException("User Not Found!")

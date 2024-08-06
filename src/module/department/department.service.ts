@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Department } from './department.entity';
 import { Repository } from 'typeorm';
+import {DepartmentId, PartialUpdateDepartment } from 'src/types/department.type';
 
 @Injectable()
 export class DepartmentService {
@@ -14,7 +15,7 @@ export class DepartmentService {
         return await this.departmentRepository.find();
     }
 
-    async save(department):Promise<String | null>{
+    async save(department):Promise<string>{
         try{
         const response=await this.departmentRepository.save(department);
         if(response){
@@ -26,8 +27,7 @@ export class DepartmentService {
         }
     }
 
-    async findById(departmentId: string): Promise<Department | null> {
-        console.log("hit")
+    async findOne(departmentId: string): Promise<Department | null> {
         const department = await this.departmentRepository.findOne({
           where: { id: departmentId },
         });
@@ -36,5 +36,37 @@ export class DepartmentService {
         }
         return department;
       }
+    
+    async update(id:DepartmentId,updateData:PartialUpdateDepartment):Promise<Object | string>{
+      const existingDpt=await this.findOne(id);
+      if(!existingDpt){
+        return new NotFoundException("Department Not Found")
+      }
+      else{
+        const response=this.departmentRepository.save({
+          ...existingDpt,
+          ...updateData,
+          createdAt:existingDpt.createdAt ?? updateData.createdAt,
+          updatedAt:existingDpt.createdAt ?? updateData.updatedAt,
+        })
+        if(response){
+          return "Department updated successfully."
+        }
+      }
     }
+
+    async delete(id:DepartmentId):Promise<Object| string>{
+      const depExist=await this.findOne(id)
+      if(!depExist){
+          return  new NotFoundException("Department not Found")
+      }
+      else{
+          const response=await this.departmentRepository.remove(depExist)
+          if(response){
+              return "Department deleted successfully."
+          }
+      }
+  }
+
+}
 

@@ -74,6 +74,9 @@ export class GradeService {
         }
         else{
             const response=await this.gradeRepository.remove(userExist)
+            if(response){
+                return "Grade deleted successfully."
+            }
         }
     }
 

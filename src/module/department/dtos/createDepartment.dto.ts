@@ -6,4 +6,8 @@ export class CreateDepartmentDto{
 
     @IsNotEmpty()
     acronym:string;
+
+    createdAt: string;
+    
+    updatedAt: string;
 }

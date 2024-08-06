@@ -17,4 +17,5 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   migrationsRun: false,
 
   synchronize:false, 
+  // synchronize:true,
 };
