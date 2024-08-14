@@ -1,5 +1,6 @@
 import { IsNotEmpty,IsEmail, MinLength } from "class-validator";
 
+
 export class UserDto{
     @IsNotEmpty({message:"The EmployeeId is required"})
     @MinLength(7)
@@ -18,5 +19,14 @@ export class UserDto{
     confirmPassword: string;
 
     @IsNotEmpty()
-    departmentId:string;
+    imgurl:string;
+
+    @IsNotEmpty()
+    role_id:string;
+
+    @IsNotEmpty()
+    grade_id:string;
+
+    @IsNotEmpty()
+    department_id:string;
 }

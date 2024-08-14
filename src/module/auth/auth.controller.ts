@@ -7,7 +7,7 @@ import { LocalGuard } from './guards/local.guard';
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService:AuthService){}
-
+    
     @UseGuards(LocalGuard)
     @Post('register')
     @HttpCode(200)
@@ -20,6 +20,5 @@ export class AuthController {
     @HttpCode(200)
     async login(@Body() userCredentials:UserCredentialsDto ){
         return this.authService.validate(userCredentials)
-    }
-
+    }   
 }

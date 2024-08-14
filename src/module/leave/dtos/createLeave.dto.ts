@@ -9,16 +9,13 @@ export class CreateLeaveDto{
     end_date:Date;
 
     @IsNotEmpty()
-    total_days:number;
-
-    @IsNotEmpty()
     purpose:string;
 
     @IsNotEmpty()
     status:LEAVE_STATUS;
 
     @IsNotEmpty()
-    employee_id:string;
+    user_id:string;
 
     @IsNotEmpty()
     leave_type_id:string;

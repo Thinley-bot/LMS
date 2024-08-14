@@ -3,6 +3,7 @@ import { Department } from "../department/department.entity";
 import { Grade } from "../grade/grade.entity";
 import { Role } from "../role/role.entity";
 import { Leave } from "../leave/leave.entity";
+import { Exclude } from "class-transformer";
 
 @Entity("Users")
 export class Users{

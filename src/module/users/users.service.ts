@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './users.entity';
 import { Repository } from 'typeorm';
 import {EmployeeId,UserId} from "../../types/employee.type"
+import { UpdateUserType } from 'src/types/auth.type';
 
 @Injectable()
 export class UsersService {
@@ -10,7 +11,7 @@ export class UsersService {
 
     async findaUserByEmpId(employeeId:EmployeeId): Promise<Users | null> {
         try {
-            const user = await this.userRepository.findOne({ where: { employeeId } });
+            const user = await this.userRepository.findOne({ where: { employeeId },relations:["role"]});
             return user || null;
         } catch (error) {
             throw new Error(`Failed to find user with employeeId ${employeeId}: ${error.message}`);
@@ -35,13 +36,19 @@ export class UsersService {
         return this.userRepository.find({relations:['department']})
     }
 
-    async updateUser(employee_Id:EmployeeId){
-        let user=this.findUserById(employee_Id);
-        if(!user){
+    async updateUser(employee_Id:EmployeeId,UserData:UpdateUserType){
+        let existingUser=this.findUserById(employee_Id);
+        if(!existingUser){
             return new  NotFoundException("User Not Found!")
         }
-        else{
-            
+        try{
+            const response=this.userRepository.save({...existingUser,...UserData})
+            if(response){
+                return "User Successfully Updated"
+            }
+        }catch(e){
+            return e.message
         }
+        
     }
 }

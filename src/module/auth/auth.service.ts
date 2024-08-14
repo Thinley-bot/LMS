@@ -17,7 +17,7 @@ export class AuthService {
     private jwtService:JwtService) {}
 
     async registerUser(userDetails:User_Detail_Type) {
-      const { employeeId, email, password, confirmPassword, departmentId } = userDetails;
+      const { employeeId, email, password, confirmPassword, department_id} = userDetails;
       CheckMatching(password, confirmPassword);
       const saltOrRounds = 10;
       const hash = await bcrypt.hash(password, saltOrRounds);
@@ -36,7 +36,7 @@ export class AuthService {
         if (!CheckMatching(password, confirmPassword)) {
           return 'The password and password confirmation should match.';
         } else {
-          const department = await this.departmentService.findOne(departmentId);
+          const department = await this.departmentService.findOne(department_id);
           console.log('Found department:', department);
           if (!department) {
             throw new NotFoundException('Department not found');
@@ -64,7 +64,7 @@ export class AuthService {
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid Password');
     }
-    const {password:userPassword,id,email,...users}=user;
+    const {password:userPassword,id,email,imgurl,role_id,grade_id,department_id,createdAt,updatedAt,...users}=user;
     return  this.jwtService.sign(users);
   }
 
@@ -76,5 +76,11 @@ export class AuthService {
       return result;
     }
     return null;
+  }
+
+  async validateJwtUser(employeeId:string):Promise<Object>{
+    const user = await this.usersService.findaUserByEmpId(employeeId);
+    const currentUser={id:user.employeeId,role:user.role.role}
+    return currentUser;
   }
 }
