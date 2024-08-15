@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Leave } from './leave.entity';
 import { Repository } from 'typeorm';
 import { LeaveTypeId } from 'src/types/leaveType.type';
 import { calculateTotalDays } from 'src/utility/CalculateTotalDays.util';
+import { LeaveId } from 'src/types/leave.type';
 
 @Injectable()
 export class LeaveService {
@@ -27,7 +28,6 @@ export class LeaveService {
             }
             return "Leave Applied Successfully.";
         } catch (e) {
-            console.error("Error saving leave data:", e);
             return e.message;
         }
     }
@@ -40,11 +40,34 @@ export class LeaveService {
             });
             return response;
         } catch (e) {
-            console.error("Error finding leave by id:", e);
             return e.message;
         }
     }
 
-    // async update(id, updateData) {
-    // }
+    async update(id, updateData) {
+        const existingLeave=await this.leaveRepository.findOne(id);
+        try{
+            const response = await this.leaveRepository.save({...existingLeave,...updateData})
+            if(response){
+                return "Leave Successfully Applied"
+            }
+        }catch(e){
+            return e.message
+        }
+    }
+
+    async delete(id:LeaveId){
+        const exitingLeave=await this.findOne(id);
+        if(!exitingLeave){
+            return new NotFoundException("Leave Not Found")
+        }
+        try{
+            const response= await this.leaveRepository.remove(exitingLeave);
+            if(response){
+                return "Deleted the leave successfully"
+            }
+        }catch(e){
+            return e.message
+        }
+    }
 }
